@@ -1,9 +1,11 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { UserService } from '../../user/user.service';
 import { User } from '../../user/entities/user.entity';
+import { ExceptionMessageConstant } from '../../../../constant/exception-message.constant';
+import { ResponseData } from '../../../interfaces/response.interface';
 
 @Injectable()
 export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
@@ -25,13 +27,15 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
    * @returns User
    */
   async validate(payload: any): Promise<any> {
-    // const res = await this.userService.findByEmail(payload.email);
-    // if (res.status === HttpStatus.NOT_FOUND || payload.isRefreshToken) {
-    //   throw new HttpException(
-    //     ExceptionMessageConstant.INVALID_TOKEN,
-    //     HttpStatus.UNAUTHORIZED,
-    //   );
-    // }
-    // return res.content as User;
+    const res: ResponseData = await this.userService.findUserByEmail(
+      payload.email,
+    );
+    if (res.status === HttpStatus.NOT_FOUND) {
+      throw new HttpException(
+        ExceptionMessageConstant.INVALID_TOKEN,
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    return res.content as User;
   }
 }
