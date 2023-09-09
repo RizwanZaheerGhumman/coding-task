@@ -33,16 +33,16 @@
 $ npm install
 ```
 
-## Migrations
-
-```bash
-$ npm run migration:run
-```
-
 ## Env Configuration
 
 ```bash
 $ copy .env.example .env
+```
+
+## Migrations
+
+```bash
+$ npm run migration:run
 ```
 
 ## Running the app
