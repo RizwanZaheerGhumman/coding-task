@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtAccessTokenStrategy } from './auth/strategy/jwt-strategy.service';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/strategy/jwt-auth-guard';
+import { TaskModule } from './task/task.module';
 
 configDotenv.config();
 
@@ -16,6 +17,7 @@ configDotenv.config();
     TypeOrmModule.forRoot(dataSourceOptions),
     AuthModule,
     UserModule,
+    TaskModule,
     PassportModule.register({ defaultStrategy: ['jwt'] }),
   ],
   providers: [
