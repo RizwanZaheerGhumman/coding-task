@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcryptjs from 'bcryptjs';
-import { ResponseData } from '../../interfaces/response.interface';
+import { ResponseData } from '../../types/response-type';
 
 @Injectable()
 export class UserService {
@@ -39,6 +39,36 @@ export class UserService {
           },
         };
       }
+      throw new HttpException(
+        { message: error.message },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  async findOne(id: number): Promise<ResponseData> {
+    try {
+      const user: User = await this.userRepository.findOne({
+        where: { id },
+      });
+      if (!user) {
+        return {
+          status: HttpStatus.NOT_FOUND,
+          content: {
+            message: 'User not found.',
+          },
+        };
+      }
+      return {
+        status: HttpStatus.OK,
+        content: {
+          user: {
+            id: user.id,
+            email: user.email,
+          },
+        },
+      };
+    } catch (error) {
       throw new HttpException(
         { message: error.message },
         HttpStatus.BAD_REQUEST,

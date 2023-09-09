@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../user/dto/login-user.dto';
-import { ResponseData } from '../../interfaces/response.interface';
+import { ResponseData } from '../../types/response-type';
 import { UserService } from '../user/user.service';
 import { User } from '../user/entities/user.entity';
 import * as bcryptjs from 'bcryptjs';
@@ -70,7 +70,7 @@ export class AuthService {
 
   async getAccessToken(userId: number, email: string): Promise<string> {
     try {
-      const accessToken = await this.jwtService.signAsync(
+      return await this.jwtService.signAsync(
         {
           id: userId,
           email,
@@ -81,7 +81,6 @@ export class AuthService {
           algorithm: 'RS512',
         },
       );
-      return accessToken;
     } catch (err) {
       throw new HttpException({ message: err.message }, HttpStatus.BAD_REQUEST);
     }

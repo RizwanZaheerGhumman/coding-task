@@ -6,7 +6,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { AppHelperService } from '../helper/app-helper.service';
 import { ExceptionMessageConstant } from '../../../../constant/exception-message.constant';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { ResponseData } from '../../../interfaces/response.interface';
+import { ResponseData } from '../../../types/response.interface';
 import { UserType } from '../../../enums/user-type.enum';
 import { SetPasswordDto } from './dto/set-password.dto';
 
@@ -155,7 +155,9 @@ describe('AuthService', () => {
       });
     });
     it('should throw Http Exception', async () => {
-      mockUserService.findByEmployeeId.mockRejectedValueOnce(new Error('Exception thrown.'));
+      mockUserService.findByEmployeeId.mockRejectedValueOnce(
+        new Error('Exception thrown.'),
+      );
       try {
         await authService.login({
           employeeNo: 1,
@@ -254,7 +256,9 @@ describe('AuthService', () => {
     });
     it('should throw HttpException with BAD_REQUEST when UserService throws an error', async () => {
       const errorMessage = 'User creation failed.';
-      mockUserService.reSendEmail.mockRejectedValueOnce(new Error(errorMessage));
+      mockUserService.reSendEmail.mockRejectedValueOnce(
+        new Error(errorMessage),
+      );
       try {
         await authService.reSendEmail(userId);
         expect(true).toBe(false);
@@ -291,7 +295,9 @@ describe('AuthService', () => {
       };
 
       const errorMessage = 'Password setting failed.';
-      mockUserService.setPassword.mockRejectedValueOnce(new Error(errorMessage));
+      mockUserService.setPassword.mockRejectedValueOnce(
+        new Error(errorMessage),
+      );
       try {
         await authService.setPassword(token, setPasswordDto);
         expect(true).toBe(false);

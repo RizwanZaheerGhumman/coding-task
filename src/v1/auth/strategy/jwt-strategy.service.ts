@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service';
 import { UserService } from '../../user/user.service';
 import { User } from '../../user/entities/user.entity';
 import { ExceptionMessageConstant } from '../../../../constant/exception-message.constant';
-import { ResponseData } from '../../../interfaces/response.interface';
+import { ResponseData } from '../../../types/response-type';
 
 @Injectable()
 export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {

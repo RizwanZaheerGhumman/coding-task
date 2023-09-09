@@ -2,7 +2,7 @@ import { Body, Controller, Post, Res } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from '../user/dto/login-user.dto';
-import { ResponseData } from '../../interfaces/response.interface';
+import { ResponseData } from '../../types/response-type';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { NoAuth } from './strategy/no-auth.guard';
 
