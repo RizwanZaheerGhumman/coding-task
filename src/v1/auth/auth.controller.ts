@@ -20,6 +20,7 @@ export class AuthController {
     return res.status(response.status).json(response.content);
   }
 
+  @NoAuth()
   @Post('register')
   @ApiOperation({ summary: 'Register user' })
   async register(@Res() res, @Body() body: CreateUserDto): Promise<Response> {
